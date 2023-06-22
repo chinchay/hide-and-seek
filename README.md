@@ -1,7 +1,45 @@
-# hide-and-seek
-Play the hide-and-seek game!
+# Overview
+
+The purpose of the *hide-and-seek* program is to bring entertainment through a simple game. It integrates graphical and sound interface, event processing (keyboard and mouse), game logic, and network communication. This 2-dimensional game is inspired on the [OpenAI research work](https://openai.com/research/emergent-tool-use) where hiders and seekers compete to find new strategies and adapt to new sitations. The game begins with *sleeping* seekers, giving hiders the opportunity to rearrange digital objects in their favor. As soon as seekers wake up, they begin to look for the hiders and can create new strategies to find them. During the game, agents cannot see through objects, like blocks or walls, so each player will see black areas rendered on the screen depending on the agent's position. This software also serves as a renderer for [my next project]() on reinforcement learning.
 
 
+# How it works
+
+The *hide-and-seek* program relies on [PyGame](https://www.pygame.org/).
+
+A demonstration of the software running and a walkthrough of the code can be found [here]().
+
+
+
+# How to use it
+
+Assuming Python and pip are installed on your machine, clone this repository
+
+```console
+$ git clone https://github.com/chinchay/hide-and-seek.git
+```
+
+install the requirements:
+
+```console
+$ cd hide-and-seek
+$ pip install requirements.txt
+```
+
+and run the game
+
+```console
+$ python game.py
+```
+
+
+# Development Environment
+
+* __Editor__: Visual Studio Code
+* __Language__: Python 3.10.5
+* __Version control system__: Git
+* __Cloud repository__: GitHub
+* __Python packages__: [PyGame](https://www.pygame.org/)
 
 
 # Solving problems
@@ -70,3 +108,7 @@ solutions found at:
 
 For future project:
 * [Machine learning is fun](https://medium.com/@ageitgey/machine-learning-is-fun-part-2-a26a10b68df3)
+
+
+
+# Future work
