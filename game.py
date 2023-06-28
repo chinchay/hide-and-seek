@@ -40,8 +40,26 @@ clock = pygame.time.Clock()
 # width, height = tileMap.GetMapSize()
 tileMap.initialize()
 
+filenameHider = "images/hider50a.png"
+img = pygame.image.load(filenameHider).convert()
+hiderA = pygame.Surface( (50,50) )
+hiderA.set_colorkey( (0, 0, 0) )
+hiderA.blit(img, (0, 0), (0, 0, 50, 50))
+hiderARect = hiderA.get_rect()
+hiderARect.x, hiderARect.y = 0, 0
+
+filenameHider = "images/hider50b.png"
+img = pygame.image.load(filenameHider).convert()
+hiderB = pygame.Surface( (50,50) )
+hiderB.set_colorkey( (0, 0, 0) )
+hiderB.blit(img, (0, 0), (0, 0, 50, 50))
+hiderBRect = hiderB.get_rect()
+hiderBRect.x, hiderBRect.y = 0, 0
+
 
 x = 0
+
+count = 0
 
 # Game loop
 running = True
@@ -67,13 +85,23 @@ while running:
     # # Update the entire display
     # pygame.display.flip()
 
+
+
     # Set the frame rate
-    clock.tick(60)
+    clock.tick(3)
 
 
     canvas.fill((0, 180, 240))
 
     tileMap.drawSurface(canvas)
+
+    
+    
+    count = (count + 1) % 2
+    if count == 0:
+        canvas.blit(hiderA, hiderARect)
+    else:
+        canvas.blit(hiderB, hiderBRect)
 
     screen.blit(canvas, (0, 0))
     pygame.display.update()

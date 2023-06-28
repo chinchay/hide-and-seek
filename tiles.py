@@ -20,15 +20,18 @@ char2file = {
 
 class Tile(pygame.sprite.Sprite):
     def __init__(self, tilefile, x, y) -> None:
+        self.tileW= 50
+        self.tileH = 50
+
         self.tilefile = tilefile
         pygame.sprite.Sprite.__init__(self)
         
         
         img = pygame.image.load(tilefile).convert()
         
-        self.imgSprite = pygame.Surface( (20, 20) )
+        self.imgSprite = pygame.Surface( (self.tileW, self.tileH) )
         self.imgSprite.set_colorkey( (0, 0, 0) )
-        self.imgSprite.blit(img, (0, 0), (0, 0, 20, 20))
+        self.imgSprite.blit(img, (0, 0), (0, 0, self.tileW, self.tileH))
 
         self.rect = self.imgSprite.get_rect()
         self.rect.x = x
@@ -46,6 +49,9 @@ class Tile(pygame.sprite.Sprite):
 
 class TileMap():
     def __init__(self) -> None:
+        self.tileW= 50
+        self.tileH = 50
+
         self.filename = "sample.txt"
         self.width, self.height = self.GetMapSize()
         pass
@@ -77,7 +83,7 @@ class TileMap():
         f = open(self.filename, "r")
         listLine = f.readlines()
         f.close()
-        tileSize = 20
+        tileSize = self.tileW
         width  = tileSize * (len(listLine[0]) - 1)
         height = tileSize * len(listLine)
 
@@ -96,7 +102,7 @@ class TileMap():
         listLine = f.readlines()
         f.close()
         listTile = []
-        tileSize = 20
+        tileSize = self.tileW
         x = 0
         y = 0
         for line in listLine:
