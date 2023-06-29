@@ -1,6 +1,7 @@
 import pygame
 import sys
 from tiles import TileMap
+from agent import Agent
 
 pygame.init()
 
@@ -40,21 +41,9 @@ clock = pygame.time.Clock()
 # width, height = tileMap.GetMapSize()
 tileMap.initialize()
 
-filenameHider = "images/hider50a.png"
-img = pygame.image.load(filenameHider).convert()
-hiderA = pygame.Surface( (50,50) )
-hiderA.set_colorkey( (0, 0, 0) )
-hiderA.blit(img, (0, 0), (0, 0, 50, 50))
-hiderARect = hiderA.get_rect()
-hiderARect.x, hiderARect.y = 0, 0
+hider = Agent()
 
-filenameHider = "images/hider50b.png"
-img = pygame.image.load(filenameHider).convert()
-hiderB = pygame.Surface( (50,50) )
-hiderB.set_colorkey( (0, 0, 0) )
-hiderB.blit(img, (0, 0), (0, 0, 50, 50))
-hiderBRect = hiderB.get_rect()
-hiderBRect.x, hiderBRect.y = 0, 0
+
 
 filenameMovableBlock = "images/movableBlock.png"
 img = pygame.image.load(filenameMovableBlock).convert()
@@ -62,14 +51,13 @@ mov1 = pygame.Surface( (50,50) )
 mov1.set_colorkey( (0, 0, 0) )
 mov1.blit(img, (0, 0), (0, 0, 50, 50))
 mov1Rect = mov1.get_rect()
-mov1Rect.x, mov1Rect.y = 0, 0
+mov1Rect.x, mov1Rect.y = 0, 20
 
 
 
-x = 0
-y = 0
+listTile = tileMap.tiles
 
-count = 0
+
 
 # Game loop
 running = True
@@ -106,104 +94,33 @@ while running:
     tileMap.drawSurface(canvas)
 
 
-    if  event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
-        y += 10
 
-        filenameHider = "images/hider50a.png"
-        img = pygame.image.load(filenameHider).convert()
-        img = pygame.transform.rotate(img, 180)
-        hiderA = pygame.Surface( (50,50) )
-        hiderA.set_colorkey( (0, 0, 0) )
-        hiderA.blit(img, (0, 0), (0, 0, 50, 50))
-        hiderARect = hiderA.get_rect()
-        hiderARect.x, hiderARect.y = x, y
-
-        filenameHider = "images/hider50b.png"
-        img = pygame.image.load(filenameHider).convert()
-        img = pygame.transform.rotate(img, 180)
-        hiderB = pygame.Surface( (50,50) )
-        hiderB.set_colorkey( (0, 0, 0) )
-        hiderB.blit(img, (0, 0), (0, 0, 50, 50))
-        hiderBRect = hiderB.get_rect()
-        hiderBRect.x, hiderBRect.y = x, y
-
-    elif  event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
-        y -= 10
-        filenameHider = "images/hider50a.png"
-        img = pygame.image.load(filenameHider).convert()
-        img = pygame.transform.rotate(img, 0)
-        hiderA = pygame.Surface( (50,50) )
-        hiderA.set_colorkey( (0, 0, 0) )
-        hiderA.blit(img, (0, 0), (0, 0, 50, 50))
-        hiderARect = hiderA.get_rect()
-        hiderARect.x, hiderARect.y = x, y
-
-        filenameHider = "images/hider50b.png"
-        img = pygame.image.load(filenameHider).convert()
-        img = pygame.transform.rotate(img, 0)
-        hiderB = pygame.Surface( (50,50) )
-        hiderB.set_colorkey( (0, 0, 0) )
-        hiderB.blit(img, (0, 0), (0, 0, 50, 50))
-        hiderBRect = hiderB.get_rect()
-        hiderBRect.x, hiderBRect.y = x, y
-
-    elif  event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
-        x -= 10
-        filenameHider = "images/hider50a.png"
-        img = pygame.image.load(filenameHider).convert()
-        img = pygame.transform.rotate(img, 90)
-        hiderA = pygame.Surface( (50,50) )
-        hiderA.set_colorkey( (0, 0, 0) )
-        hiderA.blit(img, (0, 0), (0, 0, 50, 50))
-        hiderARect = hiderA.get_rect()
-        hiderARect.x, hiderARect.y = x, y
-
-        filenameHider = "images/hider50b.png"
-        img = pygame.image.load(filenameHider).convert()
-        img = pygame.transform.rotate(img, 90)
-        hiderB = pygame.Surface( (50,50) )
-        hiderB.set_colorkey( (0, 0, 0) )
-        hiderB.blit(img, (0, 0), (0, 0, 50, 50))
-        hiderBRect = hiderB.get_rect()
-        hiderBRect.x, hiderBRect.y = x, y
-
-    elif  event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
-        x += 10
-        filenameHider = "images/hider50a.png"
-        img = pygame.image.load(filenameHider).convert()
-        img = pygame.transform.rotate(img, -90)
-        hiderA = pygame.Surface( (50,50) )
-        hiderA.set_colorkey( (0, 0, 0) )
-        hiderA.blit(img, (0, 0), (0, 0, 50, 50))
-        hiderARect = hiderA.get_rect()
-        hiderARect.x, hiderARect.y = x, y
-
-        filenameHider = "images/hider50b.png"
-        img = pygame.image.load(filenameHider).convert()
-        img = pygame.transform.rotate(img, -90)
-        hiderB = pygame.Surface( (50,50) )
-        hiderB.set_colorkey( (0, 0, 0) )
-        hiderB.blit(img, (0, 0), (0, 0, 50, 50))
-        hiderBRect = hiderB.get_rect()
-        hiderBRect.x, hiderBRect.y = x, y  
-
-    # else:
-
-
-
+    hider.ProcessEvent(event)
     
     
-    count = (count + 1) % 2
-    if event.type == pygame.KEYDOWN:
-        if count == 0:
-            canvas.blit(hiderA, hiderARect)
-        else:
-            canvas.blit(hiderB, hiderBRect)
-    else:
-        canvas.blit(hiderA, hiderARect)
-    #
+
+    hiderSide = hider.GetSide(event)
+    hiderRect = hider.GetRect()
+    canvas.blit( hiderSide,  hiderRect)
+
+    # rotated_player = pygame.transform.rotate(hiderSide, 45)
+    # canvas.blit( rotated_player,  hiderRect)
 
     canvas.blit(mov1, mov1Rect)
+
+
+    # listTileCollide = []
+    # for tile in listTile:
+    #     if hiderARect.colliderect(tile) or hiderBRect.colliderect(tile):
+    #         listTileCollide.append(tile)
+    # #
+    # for tile in listTileCollide:
+    #     if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+    #         hiderARect.x = tile.rect.left - hiderARect.w
+    #         hiderBRect.x = tile.rect.left - hiderBRect.w
+    #         # hiderARect.x  -= 10
+    #         # hiderBRect.x  -= 10
+
 
 
     screen.blit(canvas, (0, 0))
