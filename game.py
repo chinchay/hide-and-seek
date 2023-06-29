@@ -56,6 +56,15 @@ hiderB.blit(img, (0, 0), (0, 0, 50, 50))
 hiderBRect = hiderB.get_rect()
 hiderBRect.x, hiderBRect.y = 0, 0
 
+filenameMovableBlock = "images/movableBlock.png"
+img = pygame.image.load(filenameMovableBlock).convert()
+mov1 = pygame.Surface( (50,50) )
+mov1.set_colorkey( (0, 0, 0) )
+mov1.blit(img, (0, 0), (0, 0, 50, 50))
+mov1Rect = mov1.get_rect()
+mov1Rect.x, mov1Rect.y = 0, 0
+
+
 
 x = 0
 y = 0
@@ -193,6 +202,8 @@ while running:
     else:
         canvas.blit(hiderA, hiderARect)
     #
+
+    canvas.blit(mov1, mov1Rect)
 
 
     screen.blit(canvas, (0, 0))
