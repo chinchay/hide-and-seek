@@ -1,4 +1,8 @@
 import pygame
+from pygame import Rect
+# from typing import List
+from tiles import Tile
+import numpy as np
 
 class AgentSide(pygame.surface.Surface):
     def __init__(self, filename) -> None:
@@ -20,6 +24,10 @@ class AgentSide(pygame.surface.Surface):
         self._img = pygame.transform.rotate(self._img, deg)
         self.blit( self._img, (0, 0), (0, 0, self._size, self._size) )
     #
+
+    def GetRect(self):
+        return self.agentRect
+
 #
 
 class Agent:
@@ -30,19 +38,20 @@ class Agent:
         self._agentLeft  = AgentSide(leftFile)
         self._isRight = False
         self._agentDict = { True: self._agentRight, False: self._agentLeft}
+        self._addDirection = {
+            "+y" : np.asarray([  0,  10]),
+            "-y" : np.asarray([  0, -10]),
+            "+x" : np.asarray([ 10,   0]),
+            "-x" : np.asarray([-10,   0]),
+        }
         pass
 
-    def GetSide(self, event):
+    def GetSide(self, event) -> AgentSide:
         if event.type == pygame.KEYDOWN:
             self._isRight = not self._isRight
         #
-
         return self._agentDict[ self._isRight ]
-    #
-    
-    def GetRect(self):
-        return self._agentRight.agentRect
-    
+        
     def AddToX(self, dx):
         self._agentRight.agentRect.x += dx
         self._agentLeft.agentRect.x  += dx
@@ -53,24 +62,69 @@ class Agent:
         self._agentLeft.agentRect.y  += dy
         pass
 
-    def ProcessEvent(self, event):
+    def WillCollide(self, listTile, direction):
+        W = self._agentRight.agentRect.w
+        H = self._agentRight.agentRect.h
+        rightX0 = self._agentRight.agentRect.x
+        rightY0 = self._agentRight.agentRect.y
+        
+        [left, top] = [rightX0, rightY0] + self._addDirection[direction]
+        rect = Rect(left, top, W, H)
+        for tile in listTile:
+            if rect.colliderect(tile):
+                return True
+        #
+        return False
+
+
+    def ProcessEvent(self, listTile, event):
+            
         if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
             self._agentRight.Rotate(180)
             self._agentLeft.Rotate(180)
-            self.AddToY(10)
+
+            if not self.WillCollide(listTile, "+y"):
+                self.AddToY(10)
+            #
 
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
             self._agentRight.Rotate(0)
             self._agentLeft.Rotate(0)
-            self.AddToY(-10)
+
+            if not self.WillCollide(listTile, "-y"):
+                self.AddToY(-10)
+            #
 
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
             self._agentRight.Rotate(90)
             self._agentLeft.Rotate(90)
-            self.AddToX(-10)
+
+            if not self.WillCollide(listTile, "-x"):
+                self.AddToX(-10)
+            #
 
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
             self._agentRight.Rotate(-90)
             self._agentLeft.Rotate(-90)
-            self.AddToX(10)
 
+            if not self.WillCollide(listTile, "+x"):
+                self.AddToX(10)
+            #
+        #
+    #
+    
+    def GetListHits(self, listTile, event):
+        listTileCollide = []
+        for tile in listTile:
+            if self.GetSide(event).GetRect().colliderect(tile):
+                listTileCollide.append(tile)
+        #
+        return listTileCollide
+    
+    def IsColliding(self, listTile, event):
+        for tile in listTile:
+            if self._agentRight.GetRect().colliderect(tile) or self._agentLeft.GetRect().colliderect(tile):
+                return [True, tile]
+        #
+        return [False, None]
+    #

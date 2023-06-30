@@ -45,13 +45,13 @@ hider = Agent()
 
 
 
-filenameMovableBlock = "images/movableBlock.png"
-img = pygame.image.load(filenameMovableBlock).convert()
-mov1 = pygame.Surface( (50,50) )
-mov1.set_colorkey( (0, 0, 0) )
-mov1.blit(img, (0, 0), (0, 0, 50, 50))
-mov1Rect = mov1.get_rect()
-mov1Rect.x, mov1Rect.y = 0, 20
+# filenameMovableBlock = "images/movableBlock.png"
+# img = pygame.image.load(filenameMovableBlock).convert()
+# mov1 = pygame.Surface( (50,50) )
+# mov1.set_colorkey( (0, 0, 0) )
+# mov1.blit(img, (0, 0), (0, 0, 50, 50))
+# mov1Rect = mov1.get_rect()
+# mov1Rect.x, mov1Rect.y = 0, 20
 
 
 
@@ -95,18 +95,18 @@ while running:
 
 
 
-    hider.ProcessEvent(event)
+    hider.ProcessEvent(listTile, event)
     
     
 
     hiderSide = hider.GetSide(event)
-    hiderRect = hider.GetRect()
+    hiderRect = hiderSide.GetRect()
     canvas.blit( hiderSide,  hiderRect)
 
     # rotated_player = pygame.transform.rotate(hiderSide, 45)
     # canvas.blit( rotated_player,  hiderRect)
 
-    canvas.blit(mov1, mov1Rect)
+    # canvas.blit(mov1, mov1Rect)
 
 
     # listTileCollide = []

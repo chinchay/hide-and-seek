@@ -2,7 +2,7 @@ import pygame
 # from pygame.sprite import _Group
 
 char2file = {
-    "-" : "images/tile.jpg",
+    # "-" : "images/tile.jpg",
     "?" : "images/tile.jpg",
     "#" : "images/brick.png",
     "=" : "images/brick.png",
@@ -62,8 +62,8 @@ class TileMap():
         # self.width  = 300
         # self.height = 300
         filename = "sample.txt"
-        tiles = self.LoadTiles(filename) # will update width and height
-        print(tiles[0])
+        self.tiles = self.LoadTiles(filename) # will update width and height
+        print(self.tiles[0])
 
         self.surface = pygame.Surface((self.width, self.height))
         # self.surface.set_colorkey((0, 0, 200))
@@ -74,7 +74,7 @@ class TileMap():
         # self.surface.fill((200, 180, 0)) 
 
 
-        for tile in tiles:
+        for tile in self.tiles:
             tile.draw( self.surface )
         #
     #
@@ -107,10 +107,12 @@ class TileMap():
         y = 0
         for line in listLine:
             for char in line.strip():
-                tilefile = char2file[char]
-                # print(tilefile)
-                tile = Tile(tilefile, x, y)
-                listTile.append(tile)
+                if char != "-":
+                    tilefile = char2file[char]
+                    # print(tilefile)
+                    tile = Tile(tilefile, x, y)
+                    listTile.append(tile)
+                #
                 x += tileSize
             #
             x = 0
