@@ -1,6 +1,6 @@
 import pygame
 import sys
-from tiles import TileMap
+from tiles import TileMap, Tile
 from agent import Agent
 
 pygame.init()
@@ -49,13 +49,24 @@ hider = Agent()
 # img = pygame.image.load(filenameMovableBlock).convert()
 # mov1 = pygame.Surface( (50,50) )
 # mov1.set_colorkey( (0, 0, 0) )
+
 # mov1.blit(img, (0, 0), (0, 0, 50, 50))
 # mov1Rect = mov1.get_rect()
-# mov1Rect.x, mov1Rect.y = 0, 20
+# mov1Rect.x, mov1Rect.y = 0, 250
+
+# # mov1.blit(img, (0, 0), (0, 0, 50, 50))
+# # mov1Rect = mov1.get_rect()
+# # mov1Rect.x, mov1Rect.y = 200, 200
+
+filename = "images/movableBlock.png"
+mov1 = Tile(tilefile=filename, x=200, y=200)
+listMovable = [mov1]
 
 
 
 listTile = tileMap.tiles
+
+
 
 
 
@@ -95,7 +106,7 @@ while running:
 
 
 
-    hider.ProcessEvent(listTile, event)
+    hider.ProcessEvent(event, listTile, listMovable)
     
     
 
@@ -107,6 +118,11 @@ while running:
     # canvas.blit( rotated_player,  hiderRect)
 
     # canvas.blit(mov1, mov1Rect)
+
+    
+    for movable in listMovable:
+        movable.draw(canvas)
+    #    
 
 
     # listTileCollide = []

@@ -32,8 +32,12 @@ class AgentSide(pygame.surface.Surface):
 
 class Agent:
     def __init__(self) -> None:
-        rightFile = "images/hider50a.png"
-        leftFile  = "images/hider50b.png"
+        # rightFile = "images/hider50a.png"
+        # leftFile  = "images/hider50b.png"
+
+        rightFile = "images/tile.jpg"
+        leftFile  = "images/tile.jpg"
+
         self._agentRight = AgentSide(rightFile)
         self._agentLeft  = AgentSide(leftFile)
         self._isRight = False
@@ -72,18 +76,23 @@ class Agent:
         rect = Rect(left, top, W, H)
         for tile in listTile:
             if rect.colliderect(tile):
-                return True
+                print( "will collide: ", top + H, tile.rect.y )
+                return [True, tile]
         #
-        return False
+        return [False, None]
 
 
-    def ProcessEvent(self, listTile, event):
+    def ProcessEvent(self, event, listTile, listMovable):
             
         if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
             self._agentRight.Rotate(180)
             self._agentLeft.Rotate(180)
 
-            if not self.WillCollide(listTile, "+y"):
+            _, movable = self.WillCollide(listMovable, "+y")
+            if movable != None:
+                movable.rect.y += 10
+
+            if not self.WillCollide(listTile, "+y")[0]:
                 self.AddToY(10)
             #
 
@@ -91,7 +100,11 @@ class Agent:
             self._agentRight.Rotate(0)
             self._agentLeft.Rotate(0)
 
-            if not self.WillCollide(listTile, "-y"):
+            _, movable = self.WillCollide(listMovable, "-y")
+            if movable != None:
+                movable.rect.y -= 10
+
+            if not self.WillCollide(listTile, "-y")[0]:
                 self.AddToY(-10)
             #
 
@@ -99,7 +112,11 @@ class Agent:
             self._agentRight.Rotate(90)
             self._agentLeft.Rotate(90)
 
-            if not self.WillCollide(listTile, "-x"):
+            _, movable = self.WillCollide(listMovable, "-x")
+            if movable != None:
+                movable.rect.x -= 10
+
+            if not self.WillCollide(listTile, "-x")[0]:
                 self.AddToX(-10)
             #
 
@@ -107,9 +124,14 @@ class Agent:
             self._agentRight.Rotate(-90)
             self._agentLeft.Rotate(-90)
 
-            if not self.WillCollide(listTile, "+x"):
+            _, movable = self.WillCollide(listMovable, "+x")
+            if movable != None:
+                movable.rect.x += 10
+
+            if not self.WillCollide(listTile, "+x")[0]:
                 self.AddToX(10)
             #
+
         #
     #
     
