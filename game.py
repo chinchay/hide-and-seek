@@ -60,7 +60,10 @@ hider = Agent()
 
 filename = "images/movableBlock.png"
 mov1 = MovableTile(filename=filename, x=200, y=200)
-listMovable = [mov1]
+
+mov2 = MovableTile(filename=filename, x=250, y=200)
+
+listMovable = [mov1, mov2]
 
 
 

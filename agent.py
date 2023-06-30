@@ -74,12 +74,16 @@ class Agent:
         
         [left, top] = [rightX0, rightY0] + self._deltaPosition[direction]
         rect = Rect(left, top, W, H)
+        
+        willCollide = False
+        listWillCollObjs = []
+
         for tile in listTile:
             if rect.colliderect(tile):
-                # print( "will collide: ", top + H, tile.rect.y )
-                return [True, tile]
+                willCollide = True
+                listWillCollObjs.append(tile)
         #
-        return [False, None]
+        return [willCollide, listWillCollObjs]
 
 
     def ProcessEvent(self, event, listTile, listMovable):
@@ -88,20 +92,23 @@ class Agent:
             self._agentRight.Rotate(180)
             self._agentLeft.Rotate(180)
 
-            isAbleToMove = not self.WillCollide(listTile, "+y")[0]
+            amIableToMove = not self.WillCollide(listTile, "+y")[0]
 
-            _, movable = self.WillCollide(listMovable, "+y")
-            if movable != None:
-                if isAbleToMove:
+            _, movablesIwillHit = self.WillCollide(listMovable, "+y")
+            if len(movablesIwillHit) != 0:
+                for movable in movablesIwillHit:
                     canMovableMove = not movable.WillCollide(listTile, "+y")[0]
-                    if canMovableMove:
+                    amIableToMove = canMovableMove
+                    if not amIableToMove:
+                        break
+                #
+
+                if amIableToMove:
+                    for movable in movablesIwillHit:
                         movable.rect.y += 10
-                    else:
-                        isAbleToMove = False
-                    #
             #
 
-            if isAbleToMove:
+            if amIableToMove:
                 self.AddToY(10)
             #
 
@@ -111,15 +118,16 @@ class Agent:
 
             isAbleToMove = not self.WillCollide(listTile, "-y")[0]
 
-            _, movable = self.WillCollide(listMovable, "-y")
-            if movable != None:
-                if isAbleToMove:
-                    canMovableMove = not movable.WillCollide(listTile, "-y")[0]
-                    if canMovableMove:
-                        movable.rect.y -= 10
-                    else:
-                        isAbleToMove = False
-                    #
+            _, movablesIwillHit = self.WillCollide(listMovable, "-y")
+            if len(movablesIwillHit) != 0:
+                for movable in movablesIwillHit:
+                    if isAbleToMove:
+                        canMovableMove = not movable.WillCollide(listTile, "-y")[0]
+                        if canMovableMove:
+                            movable.rect.y -= 10
+                        else:
+                            isAbleToMove = False
+                        #
             #
 
             if isAbleToMove:
@@ -132,15 +140,16 @@ class Agent:
 
             isAbleToMove = not self.WillCollide(listTile, "-x")[0]
 
-            _, movable = self.WillCollide(listMovable, "-x")
-            if movable != None:
-                if isAbleToMove:
-                    canMovableMove = not movable.WillCollide(listTile, "-x")[0]
-                    if canMovableMove:
-                        movable.rect.x -= 10
-                    else:
-                        isAbleToMove = False
-                    #
+            _, movablesIwillHit = self.WillCollide(listMovable, "-x")
+            if len(movablesIwillHit) != 0:
+                for movable in movablesIwillHit:
+                    if isAbleToMove:
+                        canMovableMove = not movable.WillCollide(listTile, "-x")[0]
+                        if canMovableMove:
+                            movable.rect.x -= 10
+                        else:
+                            isAbleToMove = False
+                        #
             #
 
             if isAbleToMove:
@@ -153,15 +162,16 @@ class Agent:
 
             isAbleToMove = not self.WillCollide(listTile, "+x")[0]
 
-            _, movable = self.WillCollide(listMovable, "+x")
-            if movable != None:
-                if isAbleToMove:
-                    canMovableMove = not movable.WillCollide(listTile, "+x")[0]
-                    if canMovableMove:
-                        movable.rect.x += 10
-                    else:
-                        isAbleToMove = False
-                    #                       
+            _, movablesIwillHit = self.WillCollide(listMovable, "+x")
+            if len(movablesIwillHit) != 0:
+                for movable in movablesIwillHit:
+                    if isAbleToMove:
+                        canMovableMove = not movable.WillCollide(listTile, "+x")[0]
+                        if canMovableMove:
+                            movable.rect.x += 10
+                        else:
+                            isAbleToMove = False
+                        #                       
             #
 
             if isAbleToMove:
