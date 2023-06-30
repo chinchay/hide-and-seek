@@ -1,6 +1,6 @@
 import pygame
 import sys
-from tiles import TileMap, Tile
+from tiles import TileMap, MovableTile
 from agent import Agent
 
 pygame.init()
@@ -59,7 +59,7 @@ hider = Agent()
 # # mov1Rect.x, mov1Rect.y = 200, 200
 
 filename = "images/movableBlock.png"
-mov1 = Tile(tilefile=filename, x=200, y=200)
+mov1 = MovableTile(filename=filename, x=200, y=200)
 listMovable = [mov1]
 
 

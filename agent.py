@@ -42,7 +42,7 @@ class Agent:
         self._agentLeft  = AgentSide(leftFile)
         self._isRight = False
         self._agentDict = { True: self._agentRight, False: self._agentLeft}
-        self._addDirection = {
+        self._deltaPosition = {
             "+y" : np.asarray([  0,  10]),
             "-y" : np.asarray([  0, -10]),
             "+x" : np.asarray([ 10,   0]),
@@ -72,7 +72,7 @@ class Agent:
         rightX0 = self._agentRight.agentRect.x
         rightY0 = self._agentRight.agentRect.y
         
-        [left, top] = [rightX0, rightY0] + self._addDirection[direction]
+        [left, top] = [rightX0, rightY0] + self._deltaPosition[direction]
         rect = Rect(left, top, W, H)
         for tile in listTile:
             if rect.colliderect(tile):
@@ -93,7 +93,12 @@ class Agent:
             _, movable = self.WillCollide(listMovable, "+y")
             if movable != None:
                 if isAbleToMove:
-                    movable.rect.y += 10
+                    canMovableMove = not movable.WillCollide(listTile, "+y")[0]
+                    if canMovableMove:
+                        movable.rect.y += 10
+                    else:
+                        isAbleToMove = False
+                    #
             #
 
             if isAbleToMove:
@@ -109,7 +114,12 @@ class Agent:
             _, movable = self.WillCollide(listMovable, "-y")
             if movable != None:
                 if isAbleToMove:
-                    movable.rect.y -= 10
+                    canMovableMove = not movable.WillCollide(listTile, "-y")[0]
+                    if canMovableMove:
+                        movable.rect.y -= 10
+                    else:
+                        isAbleToMove = False
+                    #
             #
 
             if isAbleToMove:
@@ -125,7 +135,12 @@ class Agent:
             _, movable = self.WillCollide(listMovable, "-x")
             if movable != None:
                 if isAbleToMove:
-                    movable.rect.x -= 10
+                    canMovableMove = not movable.WillCollide(listTile, "-x")[0]
+                    if canMovableMove:
+                        movable.rect.x -= 10
+                    else:
+                        isAbleToMove = False
+                    #
             #
 
             if isAbleToMove:
@@ -141,7 +156,12 @@ class Agent:
             _, movable = self.WillCollide(listMovable, "+x")
             if movable != None:
                 if isAbleToMove:
-                    movable.rect.x += 10
+                    canMovableMove = not movable.WillCollide(listTile, "+x")[0]
+                    if canMovableMove:
+                        movable.rect.x += 10
+                    else:
+                        isAbleToMove = False
+                    #                       
             #
 
             if isAbleToMove:
