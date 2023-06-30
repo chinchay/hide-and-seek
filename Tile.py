@@ -26,4 +26,7 @@ class Tile(pygame.sprite.Sprite):
 
     def __str__(self):
         return "This is a tile object. filename: " + self.filename
+    
+    def CanIBePushed(self, allOthers, direction):
+        pass
 #
