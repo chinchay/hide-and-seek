@@ -76,7 +76,7 @@ class Agent:
         rect = Rect(left, top, W, H)
         for tile in listTile:
             if rect.colliderect(tile):
-                print( "will collide: ", top + H, tile.rect.y )
+                # print( "will collide: ", top + H, tile.rect.y )
                 return [True, tile]
         #
         return [False, None]
@@ -88,11 +88,15 @@ class Agent:
             self._agentRight.Rotate(180)
             self._agentLeft.Rotate(180)
 
+            isAbleToMove = not self.WillCollide(listTile, "+y")[0]
+
             _, movable = self.WillCollide(listMovable, "+y")
             if movable != None:
-                movable.rect.y += 10
+                if isAbleToMove:
+                    movable.rect.y += 10
+            #
 
-            if not self.WillCollide(listTile, "+y")[0]:
+            if isAbleToMove:
                 self.AddToY(10)
             #
 
@@ -100,11 +104,15 @@ class Agent:
             self._agentRight.Rotate(0)
             self._agentLeft.Rotate(0)
 
+            isAbleToMove = not self.WillCollide(listTile, "-y")[0]
+
             _, movable = self.WillCollide(listMovable, "-y")
             if movable != None:
-                movable.rect.y -= 10
+                if isAbleToMove:
+                    movable.rect.y -= 10
+            #
 
-            if not self.WillCollide(listTile, "-y")[0]:
+            if isAbleToMove:
                 self.AddToY(-10)
             #
 
@@ -112,11 +120,15 @@ class Agent:
             self._agentRight.Rotate(90)
             self._agentLeft.Rotate(90)
 
+            isAbleToMove = not self.WillCollide(listTile, "-x")[0]
+
             _, movable = self.WillCollide(listMovable, "-x")
             if movable != None:
-                movable.rect.x -= 10
+                if isAbleToMove:
+                    movable.rect.x -= 10
+            #
 
-            if not self.WillCollide(listTile, "-x")[0]:
+            if isAbleToMove:
                 self.AddToX(-10)
             #
 
@@ -124,11 +136,15 @@ class Agent:
             self._agentRight.Rotate(-90)
             self._agentLeft.Rotate(-90)
 
+            isAbleToMove = not self.WillCollide(listTile, "+x")[0]
+
             _, movable = self.WillCollide(listMovable, "+x")
             if movable != None:
-                movable.rect.x += 10
+                if isAbleToMove:
+                    movable.rect.x += 10
+            #
 
-            if not self.WillCollide(listTile, "+x")[0]:
+            if isAbleToMove:
                 self.AddToX(10)
             #
 
