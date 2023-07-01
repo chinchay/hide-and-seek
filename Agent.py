@@ -35,30 +35,10 @@ class Agent(MovableTile):
         img = rotate(img, self.deg)
         surface.blit(img, self.rect)
         pass
-
+    
     def GetDirection(self, event):
-        if event.type == pygame.KEYDOWN:
-            match event.key:
-                case pygame.K_DOWN:
-                    self.isWalking = True
-                    self.deg = 180
-                    return "+y"
-                case pygame.K_UP:
-                    self.isWalking = True
-                    self.deg = 0
-                    return "-y"
-                case pygame.K_LEFT:
-                    self.isWalking = True
-                    self.deg = 90
-                    return "-x"
-                case pygame.K_RIGHT:
-                    self.isWalking = True
-                    self.deg = -90
-                    return "+x"
-        #
-        self.isWalking = False
-        return None
-    #
+        # derived class will implement it
+        pass
 
     def ProcessEvent(self, event, allOthers):
         self.contactList = []

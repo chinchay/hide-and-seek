@@ -7,8 +7,6 @@ from Hider import Hider
 from Seeker import Seeker
 import copy
 
-option = input("Choose option:\n  1. Hider\n  2. Seeker\nOption: ")
-# option = "1"
 
 pygame.init()
 
@@ -20,11 +18,6 @@ width, height = scenario.GetMapSize()
 canvas = pygame.Surface((width, height))
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Hide and Seek")
-
-WHITE  = (255, 255, 255)
-BLACK  = (0, 0, 0)
-RED    = (255, 0, 0)
-YELLOW = (255, 255, 0)
 
 
 scenario.initialize()
@@ -49,22 +42,18 @@ cube2 = Cube( filename="images/movableBlock.png", x=200, y=300, ID=count)
 # count += 1
 # cube3 = Cube( filename="images/movableBlock.png", x=500, y=200, ID=count)
 
-if option == "1":
-    one     = hider
-    partner = seeker
-else:
-    one     = seeker
-    partner = hider
-#
 
-oneFakeMoves = one.listFakeMove.copy()
+# oneFakeMoves = one.listFakeMove.copy()
+hiderPrevMoves  = hider.listFakeMove.copy()
+seekerPrevMoves = seeker.listFakeMove.copy()
 
 
 # listMovableTile = [cube1, cube2, cube3]
 listMovableTile = [cube1, cube2]
-allOthers = listFixedTile + listMovableTile + [partner]
 
-# allOthers = listFixedTile
+
+allOthersForHider  = listFixedTile + listMovableTile + [seeker]
+allOthersForSeeker = listFixedTile + listMovableTile + [hider]
 
 
 # Create a clock object to control the frame rate
@@ -78,21 +67,46 @@ while running:
     # Set the frame rate
     clock.tick(10)
 
-    if len(oneFakeMoves) > 0:
-        direction = oneFakeMoves[0]
-        if direction == "+y":
-            event = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_DOWN)
-        elif direction == "-y":
-            event = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_UP)
-        elif direction == "+x":
-            event = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_RIGHT)
-        elif direction == "-x":
-            event = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_LEFT)
+    if (len(hiderPrevMoves) > 0) or (len(seekerPrevMoves) > 0):
+        if len(hiderPrevMoves) > 0:
+            ####################################################################
+            # hider
+            ####################################################################
+            direction = hiderPrevMoves[0]
+            if direction == "+y":
+                event = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_x)
+            elif direction == "-y":
+                event = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_s)
+            elif direction == "+x":
+                event = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_c)
+            elif direction == "-x":
+                event = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_z)
+            #
+            del( hiderPrevMoves[0] )
+            _ = pygame.event.get()
+            #
+            hider.ProcessEvent(event,  allOthersForHider)
 
-        del( oneFakeMoves[0] )
-        _ = pygame.event.get()
-
-        one.ProcessEvent(event, allOthers)
+        ########################################################################
+        # seeker
+        ########################################################################
+        if len(seekerPrevMoves) > 0:
+            direction = seekerPrevMoves[0]
+            if direction == "+y":
+                event = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_DOWN)
+            elif direction == "-y":
+                event = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_UP)
+            elif direction == "+x":
+                event = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_RIGHT)
+            elif direction == "-x":
+                event = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_LEFT)
+            #
+            del( seekerPrevMoves[0] )
+            _ = pygame.event.get()
+            # 
+            # one.ProcessEvent(event, allOthers)
+            seeker.ProcessEvent(event, allOthersForSeeker)
+        ########################################################################
         
         # to avoid going to the else loop with my previous event.
         # event in the else-side will be undefined until something happens
@@ -102,18 +116,19 @@ while running:
         for event in pygame.event.get():
             running = ( event.type != pygame.QUIT )
         #
-        one.ProcessEvent(event, allOthers)
+                
+        hider.ProcessEvent(event, allOthersForHider)
+        seeker.ProcessEvent(event, allOthersForSeeker)
     #
 
     canvas.fill((0, 180, 240))
     
-    scenario.Draw(canvas, one, allOthers, event)
-    # scenario.Draw(canvas)
+    # scenario.Draw(canvas, one, allOthers, event)
+    scenario.Draw(canvas)
 
+    hider.Draw(canvas)
+    seeker.Draw(canvas)
 
-    one.Draw(canvas)
-    partner.Draw(canvas)
-    
     for movable in listMovableTile:
         movable.Draw(canvas)
     #
@@ -123,8 +138,8 @@ while running:
 
 #
 
-one.SaveMoves()
-partner.SaveMoves()
+hider.SaveMoves()
+seeker.SaveMoves()
 
 
 # Quit the game
