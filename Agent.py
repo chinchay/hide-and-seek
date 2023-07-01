@@ -2,15 +2,20 @@ import pygame
 from pygame.image import load
 from MovableTile import MovableTile
 from pygame.transform import rotate
+from time import sleep
 
 class Agent(MovableTile):
-    def __init__(self, filename, x, y, ID) -> None:
+    def __init__(self, filename, x, y, ID, movesFileName) -> None:
         super().__init__(filename, x, y, ID)
         self.amIpushable = False
         self.isWalking = False
         self.deg = 0
 
         self._isRightSide = False
+        
+        self.movesFileName = movesFileName
+        self.listMove = []
+        self.listFakeMove = []
         pass
 
     def LoadSides(self):
@@ -61,6 +66,27 @@ class Agent(MovableTile):
         if direction != None:
             if self.CanIPush(allOthers, direction):
                 self.Move(direction)
+                self.listMove.append(direction)
+    #
 
+    def SaveMoves(self):
+        f = open(self.movesFileName, "w")
+        for direction in self.listMove:
+            f.write(direction + "\n")
+        #
+        f.close()
+        pass
 
-        
+    def LoadMovesFromFile(self):
+        try:
+            f = open(self.movesFileName, "r")
+            listLine = f.readlines()
+            f.close()
+            for line in listLine:
+                self.listFakeMove.append(line.strip())
+            #
+        except:
+            print("_Error loading file.")
+            pass
+    #
+
