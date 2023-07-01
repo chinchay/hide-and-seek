@@ -8,7 +8,7 @@ from Seeker import Seeker
 import copy
 
 option = input("Choose option:\n  1. Hider\n  2. Seeker\nOption: ")
-
+# option = "1"
 
 pygame.init()
 
@@ -64,6 +64,8 @@ oneFakeMoves = one.listFakeMove.copy()
 listMovableTile = [cube1, cube2]
 allOthers = listFixedTile + listMovableTile + [partner]
 
+# allOthers = listFixedTile
+
 
 # Create a clock object to control the frame rate
 clock = pygame.time.Clock()
@@ -75,9 +77,6 @@ while running:
 
     # Set the frame rate
     clock.tick(10)
-
-    canvas.fill((0, 180, 240))
-    scenario.Draw(canvas)
 
     if len(oneFakeMoves) > 0:
         direction = oneFakeMoves[0]
@@ -98,7 +97,7 @@ while running:
         # to avoid going to the else loop with my previous event.
         # event in the else-side will be undefined until something happens
         event = pygame.event.Event(pygame.NOEVENT)
-        
+
     else:
         for event in pygame.event.get():
             running = ( event.type != pygame.QUIT )
@@ -106,12 +105,17 @@ while running:
         one.ProcessEvent(event, allOthers)
     #
 
+    canvas.fill((0, 180, 240))
+    
+    scenario.Draw(canvas, one, allOthers, event)
+    # scenario.Draw(canvas)
+
+
     one.Draw(canvas)
     partner.Draw(canvas)
     
     for movable in listMovableTile:
         movable.Draw(canvas)
-    #
     #
         
     screen.blit(canvas, (0, 0))

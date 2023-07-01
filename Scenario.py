@@ -1,4 +1,5 @@
 import pygame
+from pygame import Color
 from FixedTile import FixedTile
 
 char2file = {
@@ -29,16 +30,9 @@ class Scenario:
         print(self.tiles[0])
 
         self.surface = pygame.Surface((self.width, self.height))
-        # self.surface.set_colorkey((0, 0, 200))
         
         print(self.width, self.height)
 
-        # self.surface = pygame.Surface((300, 300))
-        # self.surface.fill((200, 180, 0)) 
-
-        for tile in self.tiles:
-            tile.Draw( self.surface )
-        #
     #
 
     def GetMapSize(self):
@@ -50,7 +44,11 @@ class Scenario:
         height = tileSize * len(listLine)
         return [width, height]
 
-    def Draw(self, surface):
+    def Draw(self, surface, player=None, allOthers=None, event=None):
+        self.surface.fill( Color(0,0,0,0) )
+        for tile in self.tiles:
+            tile.Draw(self.surface, player, allOthers, event)
+        #        
         surface.blit( self.surface, (0, 0) )
         pass
 

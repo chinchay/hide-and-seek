@@ -53,20 +53,20 @@ class MovableTile(Tile):
         self.listHit = listHit
         pass
 
-    def GetFilterTiles(self, thisTile, allOthers):
-        filteredTiles = []
-        for tile in allOthers:
-            if thisTile.ID != tile.ID:
-                filteredTiles.append(tile)
-        #
-        return filteredTiles
+    # def GetFilterTiles(self, thisTile, allOthers):
+    #     filteredTiles = []
+    #     for tile in allOthers:
+    #         if thisTile.ID != tile.ID:
+    #             filteredTiles.append(tile)
+    #     #
+    #     return filteredTiles
 
     def CanIPush(self, allOthers, direction):
         # return super().CanIBePushed(allOthers, direction)
 
         self.UpdateListHit(allOthers, direction)
         for tile in self.listHit:
-            filteredTiles = self.GetFilterTiles(tile, allOthers)
+            filteredTiles = tile.GetFilterTiles(allOthers)
             if tile.amIpushable:
                 if not tile.CanIPush(filteredTiles, direction):
                     return False
