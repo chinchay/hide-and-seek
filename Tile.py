@@ -1,27 +1,31 @@
 import pygame
-from pygame import Rect
-import numpy as np
 
-class Tile(pygame.sprite.Sprite):
-    def __init__(self, filename, x, y) -> None:
-        pygame.sprite.Sprite.__init__(self)
+class Tile(pygame.surface.Surface):
+    def __init__(self, filename, x, y, ID) -> None:
+        self.width  = 50
+        self.height = 50
+        pygame.surface.Surface.__init__(self, (self.width, self.height))
 
-        width = 50
-        height = 50
+        self.ID = ID
         self.filename = filename
+        self.x = x
+        self.y = y
         
-        img = pygame.image.load(filename).convert()
-        self.imgSprite = pygame.Surface( (width, height) )
-        self.imgSprite.set_colorkey( (0, 0, 0) )
-        self.imgSprite.blit( img, (0, 0), (0, 0, width, height) )
-
-        self.rect = self.imgSprite.get_rect()
+        self.surf = pygame.Surface( (self.width, self.height) )
+        self.surf.set_colorkey( (0, 0, 0) )
+        self.rect = self.surf.get_rect()
         self.rect.x = x
         self.rect.y = y
+        
+        # self.surf.blit( img, (0, 0), (0, 0, self.width, self.height) )
         pass
 
-    def draw(self, surface):
-        surface.blit( self.imgSprite, (self.rect.x, self.rect.y) )
+    def Draw(self, surface):
+        # surface.blit( self.surf, (self.rect.x, self.rect.y) )
+        # pass
+
+        img = pygame.image.load(self.filename).convert()
+        surface.blit( img, self.rect )
         pass
 
     def __str__(self):

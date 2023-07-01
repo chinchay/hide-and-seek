@@ -1,8 +1,7 @@
-from MovableTile import MovableTile
+from ActedObject import ActedObject
 
-class ActedObject(MovableTile):
+class Cube(ActedObject):
     def __init__(self, filename, x, y, ID) -> None:
         super().__init__(filename, x, y, ID)
         pass
 
-    

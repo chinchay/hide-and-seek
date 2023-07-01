@@ -1,5 +1,5 @@
 import pygame
-# from pygame.sprite import _Group
+from FixedTile import FixedTile
 
 char2file = {
     # "-" : "images/tile.jpg",
@@ -8,52 +8,14 @@ char2file = {
     "=" : "images/brick.png",
 }
 
-# class Tile(pygame.sprite.Sprite):
-#     # def __init__(self, *groups: _Group) -> None:
-#     # super().__init__(*groups)
-
-#     def __int__(self, image, x, y):    
-#         pass
-
-
-# #
-
-class Tile(pygame.sprite.Sprite):
-    def __init__(self, tilefile, x, y) -> None:
-        self.tileW= 50
-        self.tileH = 50
-
-        self.tilefile = tilefile
-        pygame.sprite.Sprite.__init__(self)
-        
-        
-        img = pygame.image.load(tilefile).convert()
-        
-        self.imgSprite = pygame.Surface( (self.tileW, self.tileH) )
-        self.imgSprite.set_colorkey( (0, 0, 0) )
-        self.imgSprite.blit(img, (0, 0), (0, 0, self.tileW, self.tileH))
-
-        self.rect = self.imgSprite.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        pass
-
-    def draw(self, surface):
-        surface.blit( self.imgSprite, (self.rect.x, self.rect.y) )
-        pass
-
-    def __str__(self):
-        return "this is a tile object. tilefile: " + self.tilefile
-#
-
-
-class TileMap():
+class Scenario:
     def __init__(self) -> None:
-        self.tileW= 50
+        self.tileW = 50
         self.tileH = 50
 
         self.filename = "sample.txt"
         self.width, self.height = self.GetMapSize()
+        self.count = None
         pass
 
     def initialize(self):
@@ -63,6 +25,7 @@ class TileMap():
         # self.height = 300
         filename = "sample.txt"
         self.tiles = self.LoadTiles(filename) # will update width and height
+        self.count = len(self.tiles)
         print(self.tiles[0])
 
         self.surface = pygame.Surface((self.width, self.height))
@@ -73,9 +36,8 @@ class TileMap():
         # self.surface = pygame.Surface((300, 300))
         # self.surface.fill((200, 180, 0)) 
 
-
         for tile in self.tiles:
-            tile.draw( self.surface )
+            tile.Draw( self.surface )
         #
     #
 
@@ -86,14 +48,9 @@ class TileMap():
         tileSize = self.tileW
         width  = tileSize * (len(listLine[0]) - 1)
         height = tileSize * len(listLine)
-
         return [width, height]
 
-    def drawSurface(self, surface):
-        # surface.blit( self.surface, (0, 0) )
-
-        # s = pygame.Surface((300, 300))
-        # s.fill((200, 180, 0)) 
+    def Draw(self, surface):
         surface.blit( self.surface, (0, 0) )
         pass
 
@@ -105,12 +62,13 @@ class TileMap():
         tileSize = self.tileW
         x = 0
         y = 0
+        count = 0
         for line in listLine:
             for char in line.strip():
                 if char != "-":
-                    tilefile = char2file[char]
-                    # print(tilefile)
-                    tile = Tile(tilefile, x, y)
+                    filename = char2file[char]
+                    tile = FixedTile(filename, x, y, count)
+                    count += 1
                     listTile.append(tile)
                 #
                 x += tileSize
@@ -121,4 +79,7 @@ class TileMap():
         self.width  = tileSize * (len(listLine[0]) - 1)
         self.height = tileSize * len(listLine)
         return listTile
+    
+    def GetCount(self):
+        return self.count
 
