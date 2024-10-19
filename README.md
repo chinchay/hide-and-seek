@@ -1,11 +1,10 @@
 # Overview
 
-The purpose of the *hide-and-seek* program is to bring entertainment through a simple game. It will integrate graphical and sound interface, event processing (keyboard and mouse), game logic, and network communication. This 2-dimensional game is inspired on the [OpenAI research work](https://openai.com/research/emergent-tool-use) where hiders and seekers compete to find new strategies and adapt to new sitations. The game begins with *sleeping* seekers, giving hiders the opportunity to rearrange digital objects in their favor. As soon as seekers wake up, they begin to look for the hiders and can create new strategies to find them. During the game, agents cannot see through objects, like blocks or walls, so each player will see black areas rendered on the screen depending on the agent's position. The game ends when a hider is in the seeker's range of vision or when the seeker cannot find the hider after a certain time. This software also serves as a renderer for [my next project]() on reinforcement learning.
-
+The purpose of the *hide-and-seek* program is to bring entertainment through a simple game. It will integrate graphical and sound interfaces, event processing (keyboard and mouse), game logic, and network communication. This 2-dimensional game is inspired by the [OpenAI research work](https://openai.com/research/emergent-tool-use) where hiders and seekers compete to find new strategies and adapt to new situations. The game begins with *sleeping* seekers, allowing hiders to rearrange digital objects in their favor. As soon as seekers wake up, they start to look for the hiders and can create new strategies to find them. During the game,  agents cannot see through objects, like blocks or walls so each player will see black areas rendered on the screen depending on the agent's position. The game ends when a hider is in the seeker's range of vision or when the seeker cannot find the hider after a certain time. This software also serves as a renderer for [my next project]() on reinforcement learning.
 
 # How it works
 
-The *hide-and-seek* program relies on [PyGame](https://www.pygame.org/). This code creates a platform game by using icons (or *tile* in the code) to build walls, movable blocks, and *agents*. An agent can be of type *seeker* or *hider*, and they respond to keyboard events. An agent cannot see through the walls or blocks, so a seeker will need to move ramps to see at the other side of the wall, and hiders will need to use blocks smartly. Several features are still in development. The chart below shows an overview of the classes relaptionships.
+The *hide-and-seek* program relies on [PyGame](https://www.pygame.org/). This code creates a platform game by using icons (or *tile* in the code) to build walls, movable blocks, and *agents*. An agent can be of type *seeker* or *hider*, and they respond to keyboard events. An agent cannot see through the walls or blocks, so a seeker will need to move ramps to see the other side of the wall, and hiders will need to use blocks smartly. Several features are still in development. The chart below shows an overview of the class relationships.
 
 ```mermaid
 classDiagram
@@ -20,7 +19,7 @@ classDiagram
     Agent <|-- Seeker
 ```
 
-When the user quits the program, it will automatically save hider and seeker moves (files `seeker.txt` and `hider.txt`). These files will be loaded and the previous game will be recreated and rendered on the screen at the beginning of the next session. Since the files are human-readable, this feature allows developers for experimentation and can be used as a renderer for console/terminal-based similar games.
+When the user quits the program, it will automatically save hider and seeker moves (files `seeker.txt` and `hider.txt`). These files will be loaded and the previous game will be recreated and rendered on the screen at the beginning of the next session. Since the files are human-readable, this feature allows developers to experiment and can be used as a renderer for similar console/terminal-based games.
 
 A demonstration of the software running and a walkthrough of the code can be found [here](https://youtu.be/IKunGsytlXI).
 
